@@ -1,0 +1,67 @@
+<div [formGroup]="dynamicForm" class="form-array">
+  <ng-container *ngFor="let field of formDataObject">
+    <ng-container [ngSwitch]="field.type">
+      <ng-container *ngSwitchCase="'input'">
+        <mat-form-field appearance="outline" color="primary" [attr.data-id]="field?.id">
+          <mat-label>{{field?.label}}</mat-label>
+          <input matInput [formControlName]="field.title" [type]="field?.options?.inputType || 'text'">
+          <mat-error *ngIf="formError(field.title) || true">{{getInvalidMessage(field.title)}}</mat-error>
+        </mat-form-field>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'textarea'">
+        <mat-form-field appearance="outline" color="primary" [attr.data-id]="field?.id">
+          <mat-label>{{field?.label}}</mat-label>
+          <textarea matInput [formControlName]="field.title"></textarea>
+        </mat-form-field>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'date'">
+        <mat-form-field appearance="outline" color="primary" [attr.data-id]="field?.id">
+          <mat-label>{{field?.label}}</mat-label>
+          <input #inputField [formControlName]="field.title" matInput [matDatepicker]="picker" placeholder="mm/dd/yyyy">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'radio'">
+        <mat-label style="margin-bottom: 12px;">{{field?.label}}</mat-label>
+        <mat-radio-group formControlName="{{field.title}}" style="margin-bottom: 16px;" color="primary" [attr.data-id]="field?.id">
+          <ng-container *ngFor="let option of field?.options?.values">
+            <mat-radio-button [value]="option" style="margin-right: 8px;"> {{option}} </mat-radio-button>
+          </ng-container>
+        </mat-radio-group>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'select'">
+        <mat-form-field appearance="outline" color="primary" [attr.data-id]="field?.id">
+          <mat-label>{{ field?.label }}</mat-label>
+          <ng-container *ngIf="field?.options?.multi else single">
+            <mat-select [formControlName]="field.title" [multiple]="field?.options?.multi">
+              <mat-option *ngFor="let option of field?.options?.values" [value]="option"> {{ option }} </mat-option>
+            </mat-select>
+          </ng-container>
+          <ng-template #single>
+            <mat-select [formControlName]="field.title">
+              <mat-option *ngFor="let option of field?.options?.values" [value]="option"> {{ option }} </mat-option>
+            </mat-select>
+          </ng-template>
+        </mat-form-field>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'binary'">
+        <ng-container *ngIf="field?.options?.binaryType === 'toggle' else single">
+          <mat-slide-toggle style="margin-bottom: 12px;" color="primary" [formControlName]="field.title" labelPosition="before" [attr.data-id]="field?.id">{{ field.label }}</mat-slide-toggle>
+        </ng-container>
+        <ng-template #single>
+          <mat-checkbox style="margin-bottom: 12px;" color="primary" [formControlName]="field.title" labelPosition="before" [attr.data-id]="field?.id">{{field.label}}</mat-checkbox>
+        </ng-template>
+      </ng-container>
+
+      <div *ngSwitchDefault>
+        <p>{{field.type}} is not available now, or invalid type</p>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

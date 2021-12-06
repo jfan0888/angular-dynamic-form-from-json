@@ -1,0 +1,26 @@
+.form-wrap {
+  display: flex;
+  justify-content: space-around;
+  padding: 60px;
+  .dynamic-form {
+    width: 320px;
+    height: 760px;
+    overflow: auto;
+    padding: 12px;
+    margin-right: 32px;
+    border: 2px solid #ccc;
+  }
+
+  .form-data-editor {
+    width: 500px;
+    height: 700px;
+    padding: 12px;
+    margin-right: 32px;
+    background-color: #ddd;
+
+    p.error {
+      color: red;
+    }
+  }
+
+}

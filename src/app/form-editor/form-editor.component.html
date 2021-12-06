@@ -1,0 +1,23 @@
+<div class="form-wrap">
+  <div class="form-data-editor">
+    <p>Form Data Editor</p>
+    <p [class.error]="!jsonParseError">JSON valid : {{jsonParseError}}</p>
+    <ngx-monaco-editor [options]="editorOptions" [formControl]="formDataControl"></ngx-monaco-editor>
+  </div>
+
+  <div class="dynamic-form">
+    <p>Dynamic Form</p>
+    <app-dynamic-form [formDataObject]="formDataObject" (updatedForm)="formResult($event)"></app-dynamic-form>
+  </div>
+
+  <div class="dynamic-form">
+    <p>Form Value</p>
+    <ng-container *ngFor="let item of resultArray">
+      <div style="margin-bottom: 12px;">
+        <span style="margin-right: 12px;">{{item[0] | titlecase}} : </span>
+        <span>{{item[1]}}</span>
+      </div>
+    </ng-container>
+
+  </div>
+</div>
